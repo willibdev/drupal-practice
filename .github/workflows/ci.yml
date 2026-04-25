@@ -1,5 +1,5 @@
-name: Drupal CI
-
+name: Main CI Workflow
+run-name: ${{ github.actor }} is testing out GitHub Actions.
 on:
   push:
     branches: [ main ]
