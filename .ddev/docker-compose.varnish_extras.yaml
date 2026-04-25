@@ -1,0 +1,8 @@
+#ddev-generated
+# This configuration modifies HTTP_EXPOSE and HTTPS_EXPOSE for web container
+# to exclude 80 port, which is handled by Varnish.
+services:
+  web:
+    environment:
+      - HTTP_EXPOSE=8025:8025
+      - HTTPS_EXPOSE=8026:8025

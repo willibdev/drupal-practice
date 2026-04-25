@@ -1,0 +1,5 @@
+name: 'Performance Lab'
+type: module
+description: 'Module to practice and improve knowledge about core concepts such custom entities and cache strategies'
+package: Custom
+core_version_requirement: ^10 || ^11

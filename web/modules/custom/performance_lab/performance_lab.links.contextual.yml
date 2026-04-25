@@ -1,0 +1,10 @@
+entity.performance_lab_product.edit_form:
+  route_name: entity.performance_lab_product.edit_form
+  group: performance_lab_product
+  title: 'Edit'
+
+entity.performance_lab_product.delete_form:
+  route_name: entity.performance_lab_product.delete_form
+  group: performance_lab_product
+  title: 'Delete'
+  weight: 10

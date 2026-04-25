@@ -1,0 +1,9 @@
+parameters:
+	level: 1
+	reportUnmatchedIgnoredErrors: false
+	paths:
+		- web/modules/custom
+
+includes:
+	- phpstan-baseline.neon
+	- vendor/mglaman/phpstan-drupal/bleedingEdge.neon

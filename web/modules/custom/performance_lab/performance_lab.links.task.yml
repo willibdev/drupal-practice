@@ -1,0 +1,22 @@
+entity.performance_lab_product.settings:
+  title: 'Settings'
+  route_name: entity.performance_lab_product.settings
+  base_route: entity.performance_lab_product.settings
+entity.performance_lab_product.view:
+  title: 'View'
+  route_name: entity.performance_lab_product.canonical
+  base_route: entity.performance_lab_product.canonical
+entity.performance_lab_product.edit_form:
+  title: 'Edit'
+  route_name: entity.performance_lab_product.edit_form
+  base_route: entity.performance_lab_product.canonical
+entity.performance_lab_product.delete_form:
+  title: 'Delete'
+  route_name: entity.performance_lab_product.delete_form
+  base_route: entity.performance_lab_product.canonical
+  weight: 10
+entity.performance_lab_product.collection:
+  title: 'Products'
+  route_name: entity.performance_lab_product.collection
+  base_route: system.admin_content
+  weight: 10

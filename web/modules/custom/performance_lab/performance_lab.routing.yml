@@ -1,0 +1,7 @@
+entity.performance_lab_product.settings:
+  path: 'admin/structure/performance-lab-product'
+  defaults:
+    _form: '\Drupal\performance_lab\Form\ProductSettingsForm'
+    _title: 'Product'
+  requirements:
+    _permission: 'administer performance_lab_product'

@@ -1,0 +1,11 @@
+entity.performance_lab_product.settings:
+  title: 'Product'
+  description: 'Configure a Product entity type.'
+  route_name:  entity.performance_lab_product.settings
+  parent: system.admin_structure
+
+entity.performance_lab_product.collection:
+  title: 'Products'
+  description: 'List of products.'
+  route_name: entity.performance_lab_product.collection
+  parent: system.admin_content

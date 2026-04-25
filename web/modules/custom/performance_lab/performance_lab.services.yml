@@ -1,0 +1,4 @@
+services:
+  logger.channel.performance_lab:
+    parent: logger.channel_base
+    arguments: ['performance_lab']

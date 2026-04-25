@@ -1,0 +1,5 @@
+performance_lab_product.add_form:
+  title: 'Add product'
+  route_name: entity.performance_lab_product.add_form
+  appears_on:
+    - entity.performance_lab_product.collection

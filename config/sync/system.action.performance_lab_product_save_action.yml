@@ -1,0 +1,13 @@
+uuid: d37b2300-fb4e-4c23-8700-287085213f12
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+_core:
+  default_config_hash: PWvZEdikRLMeO3PU2PIoGaXGfutRUjlcq3DNhh2MX64
+id: performance_lab_product_save_action
+label: 'Save products'
+type: performance_lab_product
+plugin: 'entity:save_action:performance_lab_product'
+configuration: {  }

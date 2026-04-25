@@ -1,0 +1,11 @@
+administer performance_lab_product:
+  title: 'Administer products'
+  restrict access: true
+view performance_lab_product:
+  title: 'View product'
+edit performance_lab_product:
+  title: 'Edit product'
+delete performance_lab_product:
+  title: 'Delete product'
+create performance_lab_product:
+  title: 'Create product'

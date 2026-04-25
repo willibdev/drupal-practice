@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+id: performance_lab_product_save_action
+label: 'Save products'
+type: performance_lab_product
+plugin: entity:save_action:performance_lab_product
+configuration: {  }
