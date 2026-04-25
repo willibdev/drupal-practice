@@ -1,0 +1,30 @@
+uuid: afb00a3b-2cb5-4ace-9634-ea355f86f80b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.performance_lab_product.field_category
+    - taxonomy.vocabulary.product_category
+  module:
+    - performance_lab
+id: performance_lab_product.performance_lab_product.field_category
+field_name: field_category
+entity_type: performance_lab_product
+bundle: performance_lab_product
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      product_category: product_category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

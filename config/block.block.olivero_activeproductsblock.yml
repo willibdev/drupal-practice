@@ -1,0 +1,20 @@
+uuid: 1537f63b-7364-42e4-b5a2-6b7b44b63fa1
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+  theme:
+    - olivero
+id: olivero_activeproductsblock
+theme: olivero
+region: sidebar
+weight: 0
+provider: null
+plugin: active_products_block
+settings:
+  id: active_products_block
+  label: 'Active Products Block'
+  label_display: visible
+  provider: performance_lab
+visibility: {  }
