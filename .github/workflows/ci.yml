@@ -1,5 +1,6 @@
 name: Main CI Workflow
 run-name: ${{ github.actor }} is testing out GitHub Actions.
+
 on:
   push:
     branches: [ main ]
@@ -8,8 +9,8 @@ on:
 
 env:
   # shivammathur/setup-php
-  PHP_VERSION: 8.4
   PHP_EXTENSIONS: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, gd, exif, iconv
+  PHP_VERSION: 8.4
 
 jobs:
   build:
@@ -23,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ end.PHP_EXTENSIONS }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
           tools: composer:v2
           coverage: none
 
