@@ -75,7 +75,7 @@ jobs:
       - name: Authenticate and Push to Pantheon
         uses: pantheon-systems/push-to-pantheon@0.9.2
         with:
-          ssh_key: ${{ secrets.PANTHEON_SSH_KEY }}
+          ssh_key: ${{ secrets.SSH_PRIVATE_KEY }}
           machine_token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           site: ${{ vars.PANTHEON_SITE_NAME }}
           target_env: dev
