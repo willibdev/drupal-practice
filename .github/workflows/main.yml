@@ -66,6 +66,11 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
       - name: Download Build Artifacts
         uses: actions/download-artifact@v8
         with:
