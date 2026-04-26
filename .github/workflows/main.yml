@@ -86,7 +86,7 @@ jobs:
           target_env: dev
 
       - name: Force Git Mode
-        run: terminus connection:set $SITE_ENV git
+        run: terminus connection:set ${{ vars.PANTHEON_SITE_NAME }}.dev git
 
       - name: Run Drush commands on Pantheon
         run: |
