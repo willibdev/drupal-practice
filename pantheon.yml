@@ -4,3 +4,10 @@ api_version: 1
 php_version: 8.4
 database:
   version: 10.6
+
+workflows:
+  deploy:
+    after:
+      - type: webphp
+        description: "Run Drupal updates and config import"
+        script: private/scripts/quicksilver/deploy.php

@@ -5,16 +5,26 @@ on:
     workflows: ["Drupal CI"]
     types:
       - completed
-  push:
-    branches: [ develop ]
 
 jobs:
   deploy:
+    concurrency:
+      group: pantheon-deploy-dev
+      cancel-in-progress: true
+
+    if: >
+      ${{
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'develop'
+      }}
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       # Deploy to Pantheon
       - name: Authenticate and Push to Pantheon
@@ -24,57 +34,6 @@ jobs:
           machine_token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           site: ${{ vars.PANTHEON_SITE_NAME }}
           target_env: dev
-
-      - name: Wait until Drupal is ready
-        run: |
-          SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"
-          CURRENT_COMMIT=$(git rev-parse HEAD)
-
-          echo "Waiting for Pantheon deploy..."
-
-          # 1. Esperar commit correcto
-          for i in {1..30}; do
-            DEPLOYED_COMMIT=$(terminus env:code-log $SITE_ENV --format=json | jq -r '.[0].hash')
-
-            if [ "$DEPLOYED_COMMIT" = "$CURRENT_COMMIT" ]; then
-              echo "Correct commit deployed!"
-              break
-            fi
-
-            sleep 10
-          done
-
-          # 2. Esperar Drupal listo
-          for i in {1..30}; do
-            if terminus drush $SITE_ENV -- status > /dev/null 2>&1; then
-              echo "Drupal ready!"
-              break
-            fi
-
-            sleep 10
-          done
-
-      - name: Force Git Mode
-        run: terminus connection:set ${{ vars.PANTHEON_SITE_NAME }}.dev git
-
-      - name: Run Drush commands on Pantheon with terminus
-        run: |
-          SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"
-
-          # 4. Running Drush commands.
-          echo "Initial cache cleanning..."
-          terminus drush $SITE_ENV -- cr
-
-          echo "Running database updates (updb)..."
-          terminus drush $SITE_ENV -- updb -y
-
-          echo "Importing database configurations (cim)..."
-          terminus drush $SITE_ENV -- cim -y
-
-          echo "Final cache clean up..."
-          terminus drush $SITE_ENV -- cr
-
-          echo "🚀 ¡Deployment and update completed successfully!"
 
 
 
