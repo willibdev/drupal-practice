@@ -89,11 +89,23 @@ jobs:
         run: |
           SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"
 
+          echo "Wait 30 seconds for Pantheon to process the push..."
+          slepp 30
+
+          echo "Cleaning Terminus cache and verifying connection..."
+          terminus auth:whoami
+
+          echo "Forcing cache cleaning on environments..."
+          terminus env:clean-cache $SITE_ENV -y
+
+          echo "Securing Pantheon's Git mode..."
+          terminus connection:set $SITE_ENV git
+
           echo "Limpiando caché inicial..."
           terminus drush $SITE_ENV -- cr
 
           echo "Ejecutando actualizaciones de base de datos (updb)..."
-          terminus drush $SITE_ENV -- updb -y
+          terminus drush $SITE_ENV -- updb -y || (sleep 15 && terminus drush $SITE_ENV -- updb -y)
 
           echo "Importando configuración sincronizada (cim)..."
           terminus drush $SITE_ENV -- cim -y
