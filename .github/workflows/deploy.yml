@@ -28,16 +28,29 @@ jobs:
       - name: Wait until Drupal is ready
         run: |
           SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"
+          CURRENT_COMMIT=$(git rev-parse HEAD)
 
-          echo "Waiting for Drupal to be ready..."
+          echo "Waiting for Pantheon deploy..."
 
+          # 1. Esperar commit correcto
           for i in {1..30}; do
-            if terminus drush $SITE_ENV -- status > /dev/null 2>&1; then
-              echo "Drupal is ready!"
+            DEPLOYED_COMMIT=$(terminus env:code-log $SITE_ENV --format=json | jq -r '.[0].hash')
+
+            if [ "$DEPLOYED_COMMIT" = "$CURRENT_COMMIT" ]; then
+              echo "Correct commit deployed!"
               break
             fi
 
-            echo "Attempt $i: Drupal not ready yet..."
+            sleep 10
+          done
+
+          # 2. Esperar Drupal listo
+          for i in {1..30}; do
+            if terminus drush $SITE_ENV -- status > /dev/null 2>&1; then
+              echo "Drupal ready!"
+              break
+            fi
+
             sleep 10
           done
 
