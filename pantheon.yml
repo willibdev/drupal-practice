@@ -4,4 +4,3 @@ api_version: 1
 php_version: 8.4
 database:
   version: 10.6
-drush_version: 13.7

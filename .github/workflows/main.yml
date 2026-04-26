@@ -90,7 +90,7 @@ jobs:
           SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"
 
           echo "Creando backup de seguridad en Pantheon..."
-          terminus backup:create $SITE_ENV --element=all --keep=2
+          terminus backup:create $SITE_ENV --element=all --keep-for=2
 
           echo "Limpiando caché inicial..."
           terminus drush $SITE_ENV -- cr
