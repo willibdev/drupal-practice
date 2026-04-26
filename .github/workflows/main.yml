@@ -100,7 +100,7 @@ jobs:
           # 2. Polling loop (Check every 10 seg, up to 12 times = 2 minutes)
           echo "Starting synchonization check with Pantheon..."
 
-          for 1 in {1..12}; do
+          for i in {1..12}; do
             # Get the last commit hash known to Pantheon for the target environment.
             DEPLOYED_SHA=$(terminus env:code-log ${{ vars.PANTHEON_SITE_NAME }}.dev --format=json | jq -r '.[0].hash')
 
@@ -126,7 +126,7 @@ jobs:
           terminus drush $SITE_ENV -- cr
 
           echo "Running database updates (updb)..."
-          terminus drush $SITE_ENV -- updb -y || (echo "Initial failure, retrying updn..." && sleep 10 && terminus drush $SITE_ENV -- updb -y)
+          terminus drush $SITE_ENV -- updb -y || (echo "Initial failure, retrying updb..." && sleep 10 && terminus drush $SITE_ENV -- updb -y)
 
           echo "Importing database configurations (cim)..."
           terminus drush $SITE_ENV -- cim -y
