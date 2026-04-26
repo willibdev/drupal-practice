@@ -96,7 +96,7 @@ jobs:
           terminus auth:whoami
 
           echo "Forcing cache cleaning on environments..."
-          terminus env:clean-cache $SITE_ENV -y
+          terminus env:clear-cache $SITE_ENV -y
 
           echo "Securing Pantheon's Git mode..."
           terminus connection:set $SITE_ENV git
