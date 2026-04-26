@@ -85,35 +85,56 @@ jobs:
           site: ${{ vars.PANTHEON_SITE_NAME }}
           target_env: dev
 
+      - name: Force Git Mode
+        run: terminus connection:set $SITE_ENV git
+
       - name: Run Drush commands on Pantheon
         run: |
           SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"
 
-          echo "Wait 30 seconds for Pantheon to process the push..."
-          sleep 30
+          # Polling process to wait for Pantheon to finish processing the push and be ready for Drush commands.
+          # 1. Get the current SHA commit that triggered the workflow.
+          CURRENT_COMMIT=$(git rev-parse HEAD)
+          echo "Checking for synchonization for confirmation: $CURRENT_COMMIT"
 
-          echo "Cleaning Terminus cache and verifying connection..."
-          terminus auth:whoami
+          # 2. Polling loop (Check every 10 seg, up to 12 times = 2 minutes)
+          echo "Starting synchonization check with Pantheon..."
 
+          for 1 in {1..12}; do
+            # Get the last commit hash known to Pantheon for the target environment.
+            DEPLOYED_SHA=$(terminus env:code-log ${{ vars.PANTHEON_SITE_NAME }}.dev --format=json | jq -r '.[0].hash')
+
+            if [ "$DEPLOYED_SHA" == "$CURRENT_COMMIT" ]; then
+              echo "✅ ¡Confirmed! The code is already synchronized in Pantheon."
+              break
+            fi
+
+            if [ $i -eq 12 ]; then
+              echo "⚠️ The timeout has expired. Attemting to run Drush anyway..."
+            else
+              echo "Synchronizing... (Attempt $i/12). Wait 10 more seconds.."
+              sleep 10
+            fi
+          done
+
+          # 3. Setting up the environment.
           echo "Forcing cache cleaning on environments..."
           terminus env:clear-cache $SITE_ENV -y
 
-          echo "Securing Pantheon's Git mode..."
-          terminus connection:set $SITE_ENV git
-
-          echo "Limpiando caché inicial..."
+          # 4. Running Drush commands.
+          echo "Initial cache cleanning..."
           terminus drush $SITE_ENV -- cr
 
-          echo "Ejecutando actualizaciones de base de datos (updb)..."
-          terminus drush $SITE_ENV -- updb -y || (sleep 15 && terminus drush $SITE_ENV -- updb -y)
+          echo "Running database updates (updb)..."
+          terminus drush $SITE_ENV -- updb -y || (echo "Initial failure, retrying updn..." && sleep 10 && terminus drush $SITE_ENV -- updb -y)
 
-          echo "Importando configuración sincronizada (cim)..."
+          echo "Importing database configurations (cim)..."
           terminus drush $SITE_ENV -- cim -y
 
-          echo "Limpieza de caché final..."
+          echo "Final cache clean up..."
           terminus drush $SITE_ENV -- cr
 
-          echo "¡Despliegue y actualización completados con éxito!"
+          echo "🚀 ¡Deployment and update completed successfully!"
 
 
 
