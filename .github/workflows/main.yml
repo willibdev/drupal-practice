@@ -85,11 +85,6 @@ jobs:
           site: ${{ vars.PANTHEON_SITE_NAME }}
           target_env: dev
 
-      - name: Install Terminus
-        uses: pantheon-systems/terminus-github-actions@v1
-        with:
-          pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-
       - name: Run Drush commands on Pantheon
         run: |
           SITE_ENV="${{ vars.PANTHEON_SITE_NAME }}.dev"

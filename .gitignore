@@ -99,3 +99,7 @@
 
 # Ignore FE dependencies
 /node_modules/
+
+# Ignore database dumps.
+*.sql
+*.sql.gz
