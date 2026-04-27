@@ -10,4 +10,4 @@ workflows:
     after:
       - type: webphp
         description: "Run Drupal updates and config import"
-        script: private/scripts/quicksilver/deploy.php
+        script: private/scripts/quicksilver/deploy-dev.php
