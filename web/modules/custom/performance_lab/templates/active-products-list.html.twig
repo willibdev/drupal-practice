@@ -3,7 +3,6 @@
   * @file
   * Default theme implementation to present a list of active products.
   * Available variables:
-  * - title: The title of the block.
   * - items: An array of active product entities.
   * - attributes: HTML attributes for the container element.
   *
@@ -11,20 +10,17 @@
  */
  #}
 <section {{ attributes }}>
-  <h1>{{ title }}</h1>
-
   {% if items %}
-    <ul>
-      {% for item in items %}
-        <li>
-          <div>
-            <small>{{ item.category }}</small>
-            <h3>{{ item.title }}</h3>
-            <strong>{{ item.price }}</strong>
-            <p>{{ item.description }}</p>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+    {% for item in items %}
+      <article>
+        <small>{{ item.category }}</small>
+        <h3>{{ item.title }}</h3>
+        {% if item.price %}
+          <strong>${{ item.price|number_format(0, '.', '.') }}</strong>
+        {% endif %}
+
+        {{ item.description|raw }}
+      </article>
+    {% endfor %}
   {% endif %}
 </section>

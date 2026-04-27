@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\performance_lab;
 
+use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -30,6 +31,13 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
   protected $defaultCache;
 
   /**
+   * Defines required methods for classes wanting to handle cache tag changes.
+   *
+   * @var \Drupal\Core\Cache\CacheTagsInvalidatorInterface
+   */
+  protected $cacheTagsInvalidator;
+
+  /**
    * Logger channel factory interface.
    *
    * @var \Drupal\Core\Logger\LoggerChannel
@@ -49,6 +57,8 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
    *   Defines an interface for cache implementations.
    * @param \Drupal\Core\Cache\CacheBackendInterface $default_cache
    *   Defines an interface for cache implementations.
+   * @param \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cache_tags_invalidator
+   *   Defines required methods for classes wanting to handle cache tag changes.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   Common interface for the language manager service.
    * @param \Drupal\Core\Cache\MemoryCache\MemoryCacheInterface $memory_cache
@@ -66,6 +76,7 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
     EntityFieldManagerInterface $entity_field_manager,
     CacheBackendInterface $cache,
     CacheBackendInterface $default_cache,
+    CacheTagsInvalidatorInterface $cache_tags_invalidator,
     LanguageManagerInterface $language_manager,
     MemoryCacheInterface $memory_cache,
     EntityTypeBundleInfoInterface $entity_type_bundle_info,
@@ -74,6 +85,7 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
   ) {
     parent::__construct($entity_type, $database, $entity_field_manager, $cache, $language_manager, $memory_cache, $entity_type_bundle_info, $entity_type_manager);
     $this->defaultCache = $default_cache;
+    $this->cacheTagsInvalidator = $cache_tags_invalidator;
     $this->loggerFactory = $logger_factory;
   }
 
@@ -87,6 +99,7 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
       $container->get('entity_field.manager'),
       $container->get('cache.entity'),
       $container->get('cache.default'),
+      $container->get('cache_tags.invalidator'),
       $container->get('language_manager'),
       $container->get('entity.memory_cache'),
       $container->get('entity_type.bundle.info'),
@@ -109,11 +122,11 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
     $queryIds = $this->database->select($this->getDataTable())
       ->fields($this->getDataTable(), ['id'])
       ->condition('status', 1)
-      ->execute()->fetchAssoc();
+      ->execute()->fetchAllAssoc('id');
 
-    $products = $this->loadMultiple($queryIds);
+    $products = $this->loadMultiple(array_keys($queryIds));
 
-    $this->defaultCache->set('active_products', $products, CacheBackendInterface::CACHE_PERMANENT, ['performance_lab_list']);
+    $this->defaultCache->set('active_products', $products, CacheBackendInterface::CACHE_PERMANENT, ['product_list']);
 
     return $products;
   }
@@ -143,7 +156,7 @@ class ProductStorage extends SqlContentEntityStorage implements ProductStorageIn
    */
   protected function doSave($id, EntityInterface $entity) {
     $this->loggerFactory->info('Saving product with ID: @id', ['@id' => $id]);
-    $this->defaultCache->invalidate('active_products');
+    $this->cacheTagsInvalidator->invalidateTags(['product_list']);
     return parent::doSave($id, $entity);
   }
 

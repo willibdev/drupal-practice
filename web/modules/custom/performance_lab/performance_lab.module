@@ -5,36 +5,7 @@
  * Primary module hooks for Performance Lab module.
  */
 
-use Drupal\Core\Render\Element;
 use Drupal\user\UserInterface;
-
-/**
- * Implements hook_theme().
- */
-function performance_lab_theme(): array {
-  return [
-    'performance_lab_product' => ['render element' => 'elements'],
-    'active_products_list' => ['render element' => 'elements'],
-  ];
-}
-
-/**
- * Prepares variables for product templates.
- *
- * Default template: performance-lab-product.html.twig.
- *
- * @param array $variables
- *   An associative array containing:
- *   - elements: An associative array containing the product information and any
- *     fields attached to the entity.
- *   - attributes: HTML attributes for the containing element.
- */
-function template_preprocess_performance_lab_product(array &$variables): void {
-  $variables['view_mode'] = $variables['elements']['#view_mode'];
-  foreach (Element::children($variables['elements']) as $key) {
-    $variables['content'][$key] = $variables['elements'][$key];
-  }
-}
 
 /**
  * Implements hook_user_cancel().
@@ -49,6 +20,8 @@ function performance_lab_user_cancel($edit, UserInterface $account, $method): vo
         ->condition('status', 1)
         ->accessCheck(FALSE)
         ->execute();
+
+      /** @var \Drupal\performance_lab\ProductInterface */
       foreach ($storage->loadMultiple($performance_lab_product_ids) as $performance_lab_product) {
         $performance_lab_product->set('status', FALSE)->save();
       }
@@ -61,6 +34,8 @@ function performance_lab_user_cancel($edit, UserInterface $account, $method): vo
         ->condition('uid', $account->id())
         ->accessCheck(FALSE)
         ->execute();
+
+      /** @var \Drupal\performance_lab\ProductInterface */
       foreach ($storage->loadMultiple($performance_lab_product_ids) as $performance_lab_product) {
         $performance_lab_product->setOwnerId(0)->save();
       }
@@ -78,6 +53,7 @@ function performance_lab_user_predelete(UserInterface $account): void {
     ->condition('uid', $account->id())
     ->accessCheck(FALSE)
     ->execute();
+
   $storage->delete(
     $storage->loadMultiple($performance_lab_product_ids)
   );

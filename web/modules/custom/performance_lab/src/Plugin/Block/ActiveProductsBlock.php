@@ -4,6 +4,7 @@ namespace Drupal\performance_lab\Plugin\Block;
 
 use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -58,15 +59,35 @@ class ActiveProductsBlock extends BlockBase implements ContainerFactoryPluginInt
   /**
    * {@inheritDoc}
    */
-  public function build() {
+  public function build(): array {
     /** @var \Drupal\performance_lab\ProductStorageInterface $product_storage */
     $product_storage = $this->entityTypeManager->getStorage('performance_lab_product');
+    /** @var \Drupal\performance_lab\Entity\Product[] $active_products */
     $active_products = $product_storage->getActiveProducts();
+
+    $items = [];
+    foreach ($active_products as $product) {
+      /** @var \Drupal\taxonomy\TermInterface */
+      $category = $product->get('field_category')->entity;
+
+      $items[] = [
+        'title' => $product->label(),
+        'price' => $product->get('price')->value,
+        'description' => $product->get('description')->value,
+        'status' => $product->get('status')->value,
+        'category' => $category?->getName() ?? NULL,
+        'uuid' => $product->uuid(),
+      ];
+    }
 
     return [
       '#theme' => 'active_products_list',
       '#title' => $this->t('Active Products'),
-      '#items' => $active_products,
+      '#items' => $items,
+      '#cache' => [
+        'tags' => ['product_list'],
+        'max-age' => CacheBackendInterface::CACHE_PERMANENT,
+      ],
     ];
   }
 
