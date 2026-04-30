@@ -1,0 +1,12 @@
+uuid: 36f7ef73-cc4b-4d9b-a394-e0032a27c08f
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+id: comments_on_post_3
+label: 'Comments on post 3'
+service_api: performance_lab_jsonplaceholder
+command_name: GetPostComments
+parameters:
+  postId: 3

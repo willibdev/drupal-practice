@@ -1,0 +1,14 @@
+performance_lab.services_contents:
+  title: "Contents services API"
+  api_path: "/src/api/content_services.yml"
+  config:
+    base_uri: "http://api.example.com"
+    debug: 1
+
+performance_lab.jsonplaceholder:
+  title: "JSON Placeholder"
+  api_path: "/src/api/jsonplaceholder_services.yml"
+  config:
+    base_uri: "https://jsonplaceholder.typicode.com"
+    debug: "/tmp/jsonplaceholder.log"
+    timeout: 5

@@ -1,0 +1,11 @@
+uuid: 8422f76d-96a0-4dbe-86b9-e2fd45b11912
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+id: all_users
+label: 'All users'
+service_api: performance_lab_jsonplaceholder
+command_name: GetUsers
+parameters: null

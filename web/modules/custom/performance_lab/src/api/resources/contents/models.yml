@@ -1,0 +1,23 @@
+models:
+  ContentEntitiesList:
+    type: "array"
+    location: "json"
+    items:
+      "$ref": "ContentEntity"
+
+  ContentEntity:
+    type: "object"
+    location: "json"
+    properties:
+      userId:
+        location: "json"
+        type: "integer"
+      id:
+        location: "json"
+        type: "integer"
+      title:
+        location: "json"
+        type: "string"
+      text:
+        location: "json"
+        type: "string"

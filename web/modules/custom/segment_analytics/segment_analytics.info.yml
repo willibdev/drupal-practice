@@ -1,0 +1,5 @@
+name: 'Segment Analytics'
+type: module
+description: 'Custom Segment Integration'
+package: Custom
+core_version_requirement: ^10 || ^11

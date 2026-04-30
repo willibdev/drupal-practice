@@ -1,4 +1,4 @@
-uuid: 1537f63b-7364-42e4-b5a2-6b7b44b63fa1
+uuid: ae10bd66-45d2-41a6-abde-322570037294
 langcode: en
 status: true
 dependencies:
@@ -6,15 +6,15 @@ dependencies:
     - performance_lab
   theme:
     - olivero
-id: olivero_activeproductsblock
+id: olivero_lazyuserblock
 theme: olivero
 region: sidebar
-weight: -6
+weight: -7
 provider: null
-plugin: active_products_block
+plugin: lazy_user_block
 settings:
-  id: active_products_block
-  label: 'Active Products Block'
+  id: lazy_user_block
+  label: 'Lazy User Block'
   label_display: visible
   provider: performance_lab
 visibility: {  }

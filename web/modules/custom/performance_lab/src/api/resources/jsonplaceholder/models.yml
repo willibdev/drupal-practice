@@ -1,0 +1,130 @@
+models:
+  # -----------------
+  # ----- POSTS -----
+  # -----------------
+  PostsList:
+    type: "array"
+    location: "json"
+    items:
+      "$ref": "Post"
+
+  Post:
+    type: "object"
+    location: "json"
+    properties:
+      userId:
+        location: "json"
+        type: "integer"
+      id:
+        location: "json"
+        type: "integer"
+      title:
+        location: "json"
+        type: "string"
+      body:
+        location: "json"
+        type: "string"
+
+  # -----------------
+  # --- COMMENTS ----
+  # -----------------
+  CommentsList:
+    type: "array"
+    location: "json"
+    items:
+      "$ref": "Comment"
+
+  Comment:
+    type: "object"
+    location: "json"
+    properties:
+      postId:
+        location: "json"
+        type: "integer"
+      id:
+        location: "json"
+        type: "integer"
+      name:
+        location: "json"
+        type: "string"
+      email:
+        location: "json"
+        type: "string"
+      body:
+        location: "json"
+        type: "string"
+
+  # -----------------
+  # ----- USERS -----
+  # -----------------
+  UsersList:
+    type: "array"
+    location: "json"
+    items:
+      "$ref": "User"
+
+  User:
+    type: "object"
+    location: "json"
+    properties:
+      id:
+        location: "json"
+        type: "integer"
+      name:
+        location: "json"
+        type: "string"
+      username:
+        location: "json"
+        type: "string"
+      email:
+        location: "json"
+        type: "string"
+      address:
+        location: "json"
+        type: "object"
+        properties:
+          street:
+            location: "json"
+            type: "string"
+          suite:
+            location: "json"
+            type: "string"
+          city:
+            location: "json"
+            type: "string"
+          zipcode:
+            location: "json"
+            type: "string"
+          geo:
+            location: "json"
+            type: "object"
+            properties:
+              lat:
+                location: "json"
+                type: "string"
+              lng:
+                location: "json"
+                type: "string"
+      phone:
+        location: "json"
+        type: "string"
+      website:
+        location: "json"
+        type: "string"
+      company:
+        location: "json"
+        type: "object"
+        properties:
+          name:
+            location: "json"
+            type: "string"
+          catchPhrase:
+            location: "json"
+            type: "string"
+          bs:
+            location: "json"
+            type: "string"
+
+
+
+

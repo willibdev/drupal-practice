@@ -164,6 +164,12 @@ sub vcl_backend_response {
         unset beresp.http.Surrogate-Control;
         set beresp.do_esi = true;
     }
+
+    # Disable buffering only for BigPipe responses
+    if (beresp.http.Surrogate-Control ~ "BigPipe/1.0") {
+        set beresp.do_stream = true;
+        set beresp.ttl = 0s;
+    }
 }
 
 sub vcl_deliver {

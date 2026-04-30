@@ -1,0 +1,6 @@
+name: "JSON Placeholder Service API"
+apiVersion: "1.0"
+description: "Client wrapper for the face and reliable API for testing and prototyping"
+imports:
+  - "resources/jsonplaceholder/models.yml"
+  - "resources/jsonplaceholder/posts.yml"

@@ -1,0 +1,11 @@
+uuid: 1c411f26-0577-46ae-a4b0-721e07b43124
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+id: all_posts
+label: 'All Posts'
+service_api: performance_lab_jsonplaceholder
+command_name: GetPosts
+parameters: null

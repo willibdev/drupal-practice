@@ -1,0 +1,7 @@
+segment_analytics.settings:
+  path: '/admin/config/services/segment'
+  defaults:
+    _form: '\Drupal\segment_analytics\Form\SegmentAnalyticsSettingsForm'
+    _title: 'Segment Configuration Form'
+  requirements:
+    _permission: 'administer site configuration'

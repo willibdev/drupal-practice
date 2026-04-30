@@ -1,0 +1,10 @@
+services:
+  # Logger channels.
+  logger.channel.segment_analytics:
+    parent: logger.channel_base
+    arguments: ['segment_analytics']
+  # Services.
+  segment_analytics.service_integration:
+    class: \Drupal\segment_analytics\SegmentAnalyticsService
+    arguments: ['@current_user', '@logger.channel.segment_analytics', '@config.factory']
+  Drupal\segment_analytics\SegmentAnalyticsServiceInterface: '@segment_analytics.service_integration'

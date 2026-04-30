@@ -4,7 +4,7 @@ namespace Drupal\performance_lab\Plugin\Block;
 
 use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -84,11 +84,29 @@ class ActiveProductsBlock extends BlockBase implements ContainerFactoryPluginInt
       '#theme' => 'active_products_list',
       '#title' => $this->t('Active Products'),
       '#items' => $items,
-      '#cache' => [
-        'tags' => ['product_list'],
-        'max-age' => CacheBackendInterface::CACHE_PERMANENT,
-      ],
     ];
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getCacheContexts() {
+    // @todo IP needs to be changed by the real user's IP.
+    return Cache::mergeContexts(parent::getCacheContexts(), ['ip']);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getCacheTags() {
+    return Cache::mergeTags(parent::getCacheTags(), ['product_list']);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getCacheMaxAge() {
+    return Cache::PERMANENT;
   }
 
 }

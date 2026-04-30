@@ -1,0 +1,12 @@
+uuid: 90c1f9f5-94a1-4ef1-bdb8-4ff3ea6a36f3
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+id: posts_on_user_3
+label: 'Posts on user 3'
+service_api: performance_lab_jsonplaceholder
+command_name: GetUserPosts
+parameters:
+  userId: 3

@@ -1,0 +1,25 @@
+uuid: 6499060e-65de-4c81-bd76-fa132b20e6d0
+langcode: en
+status: true
+dependencies:
+  module:
+    - performance_lab
+    - system
+  theme:
+    - olivero
+id: olivero_lazypostsblock
+theme: olivero
+region: content
+weight: -7
+provider: null
+plugin: lazy_posts_block
+settings:
+  id: lazy_posts_block
+  label: 'Posts Block'
+  label_display: visible
+  provider: performance_lab
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

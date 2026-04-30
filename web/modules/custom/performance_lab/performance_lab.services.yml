@@ -1,4 +1,30 @@
 services:
+  # LOGGIN CHANNELS.
   logger.channel.performance_lab:
     parent: logger.channel_base
     arguments: ['performance_lab']
+
+  # SERVICES.
+  performance_lab.lazy_builder:
+    class: Drupal\performance_lab\Service\LazyBuilderService
+    arguments: ['@current_user']
+  # http client manager base service.
+  performance_lab.http_client.jsonplaceholder:
+    parent: http_client_manager.client_base
+    arguments: ['performance_lab.jsonplaceholder']
+  # Placeholder service.
+  performance_lab.jsonplaceholder:
+    class: Drupal\performance_lab\Service\JsonPlaceholderService
+    arguments: ['@current_user', '@performance_lab.http_client.jsonplaceholder', '@logger.channel.performance_lab', '@cache.default']
+
+  # EVENT SUBSCRIBERS.
+  performance_lab.segment_subscriber:
+    class: Drupal\performance_lab\EventSubscriber\SegmentSubscriber
+    arguments: ['@request_stack', '@segment_analytics.service_integration']
+    tags:
+      - { name: event_subscriber }
+  performance_lab.product_update_subscriber:
+    class: Drupal\performance_lab\EventSubscriber\ProductUpdateSubscriber
+    arguments: []
+    tags:
+      - { name: event_subscriber }

@@ -27,6 +27,11 @@ class PerformanceLabThemeHooks {
           'items' => NULL,
         ],
       ],
+      'posts_list' => [
+        'variables' => [
+          'items' => NULL,
+        ],
+      ],
     ];
   }
 

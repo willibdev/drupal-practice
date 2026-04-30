@@ -1,0 +1,38 @@
+operations:
+  GetPosts:
+    httpMethod: "GET"
+    uri: "posts"
+    summary: "Gets the available Posts, it's possible to filter by useId"
+    responseModel: "PostsList"
+
+  GetUsers:
+    httpMethod: "GET"
+    uri: "users"
+    summary: "Get available users"
+    responseModel: "UsersList"
+
+  GetPostComments:
+    httpMethod: "GET"
+    uri: "posts/{postId}/comments"
+    summary: "Gets a list of all comments related to the given post."
+    parameters:
+      postId:
+        location: "uri"
+        description: "The Post ID"
+        type: "integer"
+        required: true
+    responseModel: "CommentsList"
+
+  GetUserPosts:
+    httpMethod: "GET"
+    uri: "users/{userId}/posts"
+    summary: "Gets the available Posts, it's possible to filter by useId"
+    parameters:
+      userId:
+        location: "uri"
+        description: "The User ID"
+        type: "integer"
+        required: true
+    responseModel: "PostsList"
+
+
