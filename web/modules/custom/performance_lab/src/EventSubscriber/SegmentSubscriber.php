@@ -73,8 +73,7 @@ class SegmentSubscriber implements EventSubscriberInterface {
     // Segment events.
     // $this->segmentService->page('Página principal', 'General');
     // $this->segmentService->track('Page load event', [
-    //   'Test' => 'Page loading...',
-    // ]);
+    // 'Test' => 'Page loading...']);.
   }
 
 }

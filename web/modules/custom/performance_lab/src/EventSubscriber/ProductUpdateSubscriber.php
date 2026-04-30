@@ -24,7 +24,7 @@ class ProductUpdateSubscriber implements EventSubscriberInterface {
    * Do mething when a product entity has been updated.
    */
   public function onEntityTypeUpdate(EntityTypeEvent $event) {
-    $el = 123;
+    // Do something after updating an entity.
   }
 
 }
