@@ -8,14 +8,10 @@ services:
   performance_lab.lazy_builder:
     class: Drupal\performance_lab\Service\LazyBuilderService
     arguments: ['@current_user']
-  # http client manager base service.
-  performance_lab.http_client.jsonplaceholder:
-    parent: http_client_manager.client_base
-    arguments: ['performance_lab.jsonplaceholder']
   # Placeholder service.
   performance_lab.jsonplaceholder:
     class: Drupal\performance_lab\Service\JsonPlaceholderService
-    arguments: ['@current_user', '@performance_lab.http_client.jsonplaceholder', '@logger.channel.performance_lab', '@cache.default']
+    arguments: ['@current_user', '@http_client_manager.factory', '@logger.channel.performance_lab', '@cache.default']
 
   # EVENT SUBSCRIBERS.
   performance_lab.segment_subscriber:

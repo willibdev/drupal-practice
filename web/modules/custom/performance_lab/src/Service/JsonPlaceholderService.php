@@ -10,6 +10,7 @@ use Drupal\Core\Security\Attribute\TrustedCallback;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\http_client_manager\HttpClientInterface;
+use Drupal\http_client_manager\HttpClientManagerFactoryInterface;
 
 /**
  * Service for lazy builder content.
@@ -59,16 +60,16 @@ class JsonPlaceholderService {
    *
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   Defines an account interface which represents the current user.
-   * @param \Drupal\http_client_manager\HttpClientInterface $http_client
+   * @param \Drupal\http_client_manager\HttpClientManagerFactoryInterface $http_client_factory
    *   The HTTP Client Manager Factory service.
    * @param \Drupal\Core\Logger\LoggerChannel $logger_channel
    *   Logger channel interface.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Defines an interface for cache implementations.
    */
-  public function __construct(AccountProxyInterface $current_user, HttpClientInterface $http_client, LoggerChannel $logger_channel, CacheBackendInterface $cache_backend) {
+  public function __construct(AccountProxyInterface $current_user, HttpClientManagerFactoryInterface $http_client_factory, LoggerChannel $logger_channel, CacheBackendInterface $cache_backend) {
     $this->currentUser = $current_user;
-    $this->httpClient = $http_client;
+    $this->httpClient = $http_client_factory->get('performance_lab.jsonplaceholder');
     $this->loggerChannel = $logger_channel;
     $this->cache = $cache_backend;
   }
