@@ -1,0 +1,36 @@
+uuid: 0c2ba98a-6952-4015-860b-94a748bf25d7
+langcode: en
+status: false
+dependencies: {  }
+id: local
+label: Local
+description: ''
+weight: 1
+stackable: false
+no_patching: false
+storage: folder
+folder: ../config/local
+module:
+  purge: 0
+  purge_drush: 0
+  purge_purger_http: 0
+  purge_purger_http_tagsheader: 0
+  purge_tokens: 0
+  purge_ui: 0
+  devel: 0
+  devel_entity_updates: 0
+  devel_generate: 0
+  purge_processor_cron: 0
+theme: {  }
+complete_list:
+  - purge.logger_channels
+  - purge.plugins
+  - purge_purger_http.settings.c15aa7323f
+  - purge_purger_http.settings.dac5dae45b
+  - purge_queuer_coretags.settings
+partial_list:
+  - purge.logger_channels
+  - purge.plugins
+  - purge_purger_http.settings.c15aa7323f
+  - purge_purger_http.settings.dac5dae45b
+  - purge_queuer_coretags.settings
